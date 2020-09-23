@@ -50,7 +50,95 @@
         </div>
         </div>
       </div>
-      <div v-else></div>
+      <div v-else>
+       <div class="row">
+         <div class="col-md-6">
+           <strong>First Name:</strong>
+           <input v-model="order.firstName"
+           class="form-control"/>
+         </div>
+         <div class="col-md-6">
+           <strong>Last Name:</strong>
+           <input v-model="order.lastName"
+                  class="form-control"/>
+         </div>
+         <div class="col-md-6">
+           <strong>Address:</strong>
+             <input v-model="order.address"
+             class="form-control" />
+         </div>
+         <div class="col-md-6">
+           <strong>City:</strong>
+             <input v-model="order.city"
+             class="form-control" />
+         </div>
+         <div class="col-md-6">
+             <strong>State:</strong>
+             <select v-model="order.state"
+             class="form-control">
+             <option disabled value="">State</option>
+             <option v-for="(state, key) in states"
+                      v-bind:value="state">{{ key }}</option>
+             </select>
+         </div>
+         <div class="col-md-6">
+             <strong>Zip / Postal Code:</strong>
+             <input v-model.number="order.zip"
+             class="form-control"/>
+         </div>
+         <div class="col-md-6 my-2">
+           <div class="form-group form-check">
+             <input
+               type="checkbox"
+               class="form-check-input"
+               value="true"
+               id="gift"
+               v-bind:true-value="order.sendGift"
+               v-bind:false-value="order.dontSendGift"
+               v-model="order.gift">
+             <label class="form-check-label" for="gift">Ship As Gift?</label>
+           </div>
+         </div>
+         <div class="col-md-6 my-2">
+           <div class="form-check form-check-inline">
+             <input
+               class="form-check-input"
+               type="radio"
+               id="home"
+                v-bind:value="order.home"
+                v-model="order.method">
+             <label class="form-check-label" for="home">Home</label>
+           </div>
+           <div class="form-check form-check-inline">
+             <input
+               class="form-check-input"
+               type="radio"
+               id="business"
+               v-bind:value="order.business"
+               v-model="order.method">
+             <label class="form-check-label" for="business">Business</label>
+           </div>
+         </div>
+         <div class="col-md-12 my-5">
+          <button
+            type="submit"
+            class="btn btn-success submit"
+            v-on:click="submitForm">Place Order</button>
+         </div>
+         <div class="col-md-12 verify">
+           <pre>
+          First Name: {{order.firstName}}
+           Last Name: {{order.lastName}}
+             Address: {{order.address}}
+                City: {{order.city}}
+                 Zip: {{order.zip}}
+               State: {{order.state}}
+               Method: {{order.method}}
+               Gift: {{order.gift}}
+             </pre>
+         </div>
+       </div>
+      </div>
   </main>
 </div>
 
@@ -61,6 +149,26 @@
         data: {
             showProduct: true,
             siteName: 'Vue.js Pet Depot',
+            order: {
+              firstName: '',
+              lastName: '',
+                address: '',
+                city: '',
+                zip: '',
+                state: '',
+                method: 'Home Address',
+                home: 'Home Address',
+                business: 'Business Address',
+                gift: 'Send As A Gift',
+                sendGift: 'Send As A Gift',
+                dontSendGift: 'Do Not Send As A Gift'
+            },
+            states: {
+              AL: 'Alabama',
+              AR: 'Arizona',
+              CA: 'California',
+              NV: 'Nevada',
+            },
             product: {
                 id: 1001,
                 title: 'Cat Food, 25lb bag',
@@ -95,6 +203,9 @@
             },
             showCheckout() {
               this.showProduct = this.showProduct ? false : true;
+            },
+            submitForm() {
+                alert('Submitted');
             }
         },
         computed: {
