@@ -11,37 +11,46 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container">
         <a class="navbar-brand" href="#">{{ siteName }}</a>
-        <div class="my-0">{{ cartItemCount }} <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-basket2-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <div class="my-0">
+          <button
+                  type="button"
+                  class="btn btn-default btn-lg"
+                  @click="showCheckout">{{ cartItemCount }}
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-basket2-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" d="M5.929 1.757a.5.5 0 1 0-.858-.514L2.217 6H.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h.623l1.844 6.456A.75.75 0 0 0 3.69 15h8.622a.75.75 0 0 0 .722-.544L14.877 8h.623a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1.717L10.93 1.243a.5.5 0 1 0-.858.514L12.617 6H3.383L5.93 1.757zM4 10a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0v-2zm3 0a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0v-2zm4-1a1 1 0 0 0-1 1v2a1 1 0 1 0 2 0v-2a1 1 0 0 0-1-1z"/>
-        </svg> Checkout</div>
+        </svg> Checkout</button></div>
       </div>
     </nav>
     <!-- OR   <h1>{{ siteName }}</h1>-->
   </header>
   <main class="container">
-    <div class="row product">
-      <div class="col text-center">
-        <figure>
-          <img v-bind:src="product.images" alt="">
-        </figure>
-      </div>
-      <div class="col col-expand">
-        <h1 v-text="product.title"></h1>
-        <p v-html="product.description"></p>
-        <p class="price">{{ product.price | formatPrice }}</p>
-<!--        <button
-class="btn btn-info"
-v-on:click="addToCart"
-v-show="canAddToCart">Add to cart</button>-->
-        <button
+
+      <div v-if="showProduct">
+        <div class="row product">
+        <div class="col text-center">
+          <figure>
+            <img v-bind:src="product.images" alt="">
+          </figure>
+        </div>
+        <div class="col col-expand">
+          <h1 v-text="product.title"></h1>
+          <p v-html="product.description"></p>
+          <p class="price">{{ product.price | formatPrice }}</p>
+          <!--        <button
           class="btn btn-info"
           v-on:click="addToCart"
-          v-if="canAddToCart">Add to cart</button>
-        <button
-          class="btn btn-secondary disabled"
-          v-else>Goods are out</button>
+          v-show="canAddToCart">Add to cart</button>-->
+          <button
+                  class="btn btn-info"
+                  v-on:click="addToCart"
+                  v-if="canAddToCart">Add to cart</button>
+          <button
+                  class="btn btn-secondary disabled"
+                  v-else>Goods are out</button>
+        </div>
+        </div>
       </div>
-    </div>
+      <div v-else></div>
   </main>
 </div>
 
@@ -50,6 +59,7 @@ v-show="canAddToCart">Add to cart</button>-->
     let webstore = new Vue({
         el: '#app',
         data: {
+            showProduct: true,
             siteName: 'Vue.js Pet Depot',
             product: {
                 id: 1001,
@@ -82,6 +92,9 @@ v-show="canAddToCart">Add to cart</button>-->
         methods: {
             addToCart: function () {
               this.cart.push( this.product.id );
+            },
+            showCheckout() {
+              this.showProduct = this.showProduct ? false : true;
             }
         },
         computed: {
