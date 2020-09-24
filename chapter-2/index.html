@@ -47,6 +47,23 @@
           <button
                   class="btn btn-secondary disabled"
                   v-else>Goods are out</button>
+          <span class="inventory-message"
+                v-if="product.availableInventory - cartItemCount === 0">
+            All Out!
+          </span>
+          <span class="inventory-message"
+          v-else-if="product.availableInventory - cartItemCount < 5">
+            Only {{ product.availableInventory - cartItemCount }} left
+          </span>
+          <span class="inventory-message"
+                v-else>
+            Buy Now!
+          </span>
+          <div class="rating">
+            <span
+                    v-for="n in 5"
+                    v-bind:class="{'rating-active':checkRating(n)}">☆</span>
+          </div>
         </div>
         </div>
       </div>
@@ -54,22 +71,22 @@
        <div class="row">
          <div class="col-md-6">
            <strong>First Name:</strong>
-           <input v-model="order.firstName"
+           <input v-model.trim="order.firstName"
            class="form-control"/>
          </div>
          <div class="col-md-6">
            <strong>Last Name:</strong>
-           <input v-model="order.lastName"
+           <input v-model.trim="order.lastName"
                   class="form-control"/>
          </div>
          <div class="col-md-6">
            <strong>Address:</strong>
-             <input v-model="order.address"
+             <input v-model.trim="order.address"
              class="form-control" />
          </div>
          <div class="col-md-6">
            <strong>City:</strong>
-             <input v-model="order.city"
+             <input v-model.trim="order.city"
              class="form-control" />
          </div>
          <div class="col-md-6">
@@ -176,7 +193,8 @@
                               ' organic goodness for your cat.',
                 price: 2000,
                 images: 'assets/images/product-fullsize.png',
-                availableInventory: 5
+                availableInventory: 10,
+                rating: 3
             },
             cart: []
         },
@@ -206,12 +224,15 @@
             },
             submitForm() {
                 alert('Submitted');
+            },
+            checkRating(n) {
+              return this.product.rating - n >= 0;
             }
         },
         computed: {
 
             cartItemCount: function () {
-              return this.cart.length || '0';
+              return this.cart.length || '';
             },
 
             canAddToCart: function () {
