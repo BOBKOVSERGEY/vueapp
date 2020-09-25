@@ -49,3 +49,10 @@ header h1{
     position: relative;
     width: 1.1em;
 }
+img {
+    max-width: 100%;
+}
+.products {
+    margin-bottom: 30px;
+    border-bottom: 1px solid #ccc;
+}
