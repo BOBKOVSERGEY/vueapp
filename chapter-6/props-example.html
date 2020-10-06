@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
+<body>
+<div id="app">
+    <my-component :num="myNumber"
+                  :str="passedString"
+                  :even="myNumber"
+                  :obj="passedObject"></my-component>
+</div>
+<script>
+    /*Vue.component('my-component', {
+        template: '<div>From Component</div>'
+    });*/
+    const MyComponent = {
+      template: `<div>
+                    Number: {{ num }}<br>
+                    String: {{ str }}<br>
+                    IsEven: {{ even }}<br>
+                    Object: {{ obj.message }}<br>
+                 </div>`,
+        props: {
+          num: {
+              type: Number,
+              required: true
+          },
+            str: {
+                type: String,
+                default: 'Hello, world!'
+            },
+            obj: {
+                type: Object,
+                default: () => {
+                    return { message: 'Hello from Object' }
+                }
+            },
+            even: {
+              validator: (value) => {
+                  return (value % 2 === 0)
+              }
+            }
+
+        }
+    };
+    new Vue({
+        el: '#app',
+        components: {
+            'my-component': MyComponent
+        },
+        data() {
+            return {
+                passedString: 'Hello from Parent',
+                myNumber: 43,
+                passedObject: {message: 'Passed Object'}
+            }
+        }
+    })
+</script>
+</body>
+</html>
