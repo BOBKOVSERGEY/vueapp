@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
+<body>
+<div id="app">
+    <div class="container">
+        <book-component
+                :books="books">
+            <h1 slot="header">{{ header }}</h1>
+            <template slot="book" slot-scope="props">
+                <h2>
+                    <i>{{props.text.title}}</i>
+                    <small>by: {{props.text.author}}</small>
+                </h2>
+            </template>
+        </book-component>
+    </div>
+</div>
+<script>
+
+    const BookComponent = {
+        template: `
+            <div>
+                <slot name="header"></slot>
+                <slot name="book"
+                        v-for="book in books"
+                        :text="book"></slot>
+            </div>
+        `,
+        props: [
+            'books'
+        ]
+
+    };
+    new Vue({
+        el: '#app',
+        components: {
+            'book-component': BookComponent
+        },
+        data() {
+            return {
+                books: [{author: 'John Smith', title: 'Best Of Times' },
+                    {author: 'Jane Doe', title: 'Go West Young Man' },
+                    {author: 'Avery Katz', title: 'The Life And Times Of Avery' }
+                ],
+                header: 'Book List'
+            }
+        }
+    })
+</script>
+</body>
+</html>
