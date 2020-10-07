@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
+<body>
+<div id="app">
+    <div class="container">
+        <form-component
+                :author="authorLabel"
+                :title="titleLabel">
+            <h1>{{ header }}</h1>
+        </form-component>
+    </div>
+</div>
+<script>
+
+    const FormComponent = {
+        template: `
+            <div>
+                <form action="">
+                    <slot></slot>
+                    <div class="form-group">
+                        <label for="title">{{ title }}</label>
+                        <input class="form-control" type="text" id="title">
+                    </div>
+                    <div class="form-group">
+                        <label for="author">{{ author }}</label>
+                        <input class="form-control" type="text" id="author">
+                    </div>
+                    <div class="my-5">
+                        <button class="btn btn-info">Submit</button>
+                    </div>
+                </form>
+            </div>
+        `,
+        props: [
+            'title',
+            'author'
+        ]
+
+    };
+    new Vue({
+        el: '#app',
+        components: {
+            'form-component': FormComponent
+        },
+        data() {
+            return {
+                titleLabel: 'The Title',
+                authorLabel: 'The Author',
+                header: 'Book Author From'
+            }
+        }
+    })
+</script>
+</body>
+</html>
